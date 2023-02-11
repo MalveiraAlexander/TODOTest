@@ -1,0 +1,23 @@
+{
+  "todos": [
+    {
+      "id": 1,
+      "title": "Desarrollar Alta de Usuarios",
+      "description": "Se debe realizar el alta de usuario con un: Nombre, Apellido, y DNI",
+      "time": 30,
+      "finished": false,
+      "timeForComplete": 0
+    },
+    {
+      "id": 2,
+      "title": "Desarrollar Alta de Autos",
+      "description": "Se debe realizar el alta de autos con un: Marca, Modelo, y Catalogo",
+      "time": 30,
+      "finished": false,
+      "timeForComplete": 0
+    }
+  ],
+  "total": {
+    "total": 0
+  }
+}

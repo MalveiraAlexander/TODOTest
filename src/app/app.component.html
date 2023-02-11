@@ -1,0 +1,59 @@
+<div class="container mb-5">
+  <div class="row justify-content-center mt-5">
+    <p class="text-center">
+      <span><h1>ToDo's</h1></span>  <br>
+      <span *ngIf="total > 0"><small>[Tiempo total transcurrido: {{total | number: '0.000'}}]</small></span>
+    </p>
+  </div>
+  <div class="row justify-content-center mt-5">
+    <form [formGroup]="addForm" style="width: 40%;" (submit)="save()">
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Titulo *</label>
+        <input formControlName="title" name="title" type="text" maxlength="50" class="form-control" id="exampleFormControlInput1" >
+      </div>
+      <div class="mb-3">
+        <label for="exampleFormControlInput2" class="form-label">Descripción *</label>
+        <textarea formControlName="desc" name="desc" type="text" maxlength="150" class="form-control" id="exampleFormControlInput2"></textarea>
+      </div>
+      <div class="mb-3">
+        <button class="btn btn-success" [disabled]="addForm.invalid" type="submit">Agregar</button>
+      </div>
+    </form>
+  </div>
+  <div class="row justify-content-center mt-5">
+    <ul class="list-group">
+      <li  class="list-group-item" *ngFor="let item of todos">
+        <div (mouseenter)="item.showPlayPuase = true" (mouseleave)="item.showPlayPuase = false" [ngClass]="{'card-check': item.finished}" class="card">
+          <div class="container-fluid">
+            <div class="row justify-content-center mt-3">
+              <h3>{{item.title}} </h3>
+              <small  *ngIf="item.timeForComplete > 0">Tiempo transcurrido: {{item.timeForComplete}} minutos</small>
+            </div>
+            <div class="row justify-content-center mt-3 mb-4">
+              <div class="col-7 align-content-center align-self-center">
+                <p>{{item.description}}</p>
+              </div>
+              <div class="col-1 align-content-center align-self-center">
+                <i *ngIf="!item.finished" class="fa-solid fa-spinner" [ngClass]="{'fa-spin-pulse': !item.paused}"></i>
+              </div>
+              <div class="col-2 align-content-center align-self-center">
+                <div [ngClass]="{'none': item.finished}">
+                  <countdown  #timmer [config]="{leftTime: item.time * 60}" (event)="handleEvent($event, item, timmer)"></countdown>
+                </div>
+              </div>
+              <div class="col-2 align-content-center align-self-center">
+                <button class="btn btn-danger" style="margin-left: 5px;" (click)="deleteTodo(item.id)"><i class="fa-solid fa-trash"></i></button>
+                <button (click)="changeToFinished(item, timmer)" *ngIf="!item.finished" class="btn btn-success" style="margin-left: 5px;"><i class="fa-solid fa-check"></i></button>
+                <button *ngIf="item.showPlayPuase && !item.finished" style="margin-left: 5px;" class="btn btn-warning" (click)="playPause(timmer, item)">
+                  <i *ngIf="!item.paused" class="fa-solid fa-pause"></i>
+                  <i *ngIf="item.paused" class="fa-solid fa-play"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </li>
+    </ul>
+  </div>
+</div>
